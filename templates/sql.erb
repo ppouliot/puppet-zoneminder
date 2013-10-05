@@ -1,0 +1,4 @@
+COUNT(*)
+FROM information_schema.tables 
+WHERE table_schema = '<%= @zm_db_name %>'
+AND table_name = 'logs';

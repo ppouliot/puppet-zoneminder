@@ -37,5 +37,31 @@
 #
 class zoneminder {
 
+  include zoneminder::params
+
+  class{'ntp':
+    servers => ['bonehed.lcs.mit.edu'],
+  }
+
+  class{'apache':
+    default_vhost  => true,
+    mpm_module     => prefork,
+    service_enable => true,
+    service_ensure => running,
+  }
+  class {'apache::mod::php':}
+
+  class{'zoneminder::packages':}
+  class{'zoneminder::zm':}
+#  class{'zoneminder::www':}
+  class{'zoneminder::db':}
+  class{'zoneminder::build':}
 
 }
+
+Class['zoneminder::packages']   -> 
+  Class['zoneminder::zm']        ->
+#    Class['zoneminder::www']       ->
+      Class['zoneminder::db']       ->
+        Class['zoneminder::build']  #->
+
