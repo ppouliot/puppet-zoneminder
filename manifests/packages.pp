@@ -12,8 +12,13 @@ class zoneminder::packages {
     ensure   => latest,
     provider => 'rpm',
     source   => 'http://elrepo.org/elrepo-release-6-5.el6.elrepo.noarch.rpm',
-
   }
+  package {'epel-release':
+    ensure   => latest,
+    provider => 'rpm',
+    source   => 'http://mirror.pnl.gov/epel/6/i386/epel-release-6-8.noarch.rpm'
+  }
+
   file {'/etc/yum.repos.d/elrepo.repo':
     ensure => file,
     source => 'puppet:///modules/zoneminder/elrepo.repo',
@@ -32,8 +37,6 @@ class zoneminder::packages {
     require => File['/etc/yum.repos.d/elrepo.repo'],
   }
 
-  package {'kmod-r8168':
-    ensure => latest,
-  }
+  perl::module { 'X10::ActiveHome': }
 
 }
