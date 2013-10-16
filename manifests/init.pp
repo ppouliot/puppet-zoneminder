@@ -51,6 +51,10 @@ class zoneminder {
   }
   class {'apache::mod::php':}
 
+  group {'video':
+    members => 'apache',
+  }
+
   class{'zoneminder::packages':}
   class{'zoneminder::zm':}
 #  class{'zoneminder::www':}
